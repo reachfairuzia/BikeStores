@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Catalog Details</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" th:href="@{../resources/assets/img/apple-icon.png}">
+  <link rel="icon" type="image/png" th:href="@{/resources/favicon.png}">
+  <title>
+    Product Catalog
+  </title>
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <!-- Nucleo Icons -->
+  <link th:href="@{../resources/assets/css/nucleo-icons.css}" rel="stylesheet" />
+  <link th:href="@{../resources/assets/css/nucleo-svg.css}" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link th:href="@{../resources/assets/css/nucleo-svg.css}" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link id="pagestyle" th:href="@{../resources/assets/css/soft-ui-dashboard.css?v=1.0.7}" rel="stylesheet" />
+  <!-- Nepcha Analytics (nepcha.com) -->
+  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
+  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+</head>
+<body>
+<div class="container position-sticky z-index-sticky top-0">
+  <div class="row">
+    <div class="col-12">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg blur blur-rounded top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
+        <div class="container-fluid pe-0">
+          <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " th:href="@{/}">
+            Bike Stores Dashboard
+          </a>
+          <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon mt-2">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </span>
+          </button>
+          <div class="collapse navbar-collapse" id="navigation">
+            <ul class="navbar-nav mx-auto ms-xl-auto me-xl-7">
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" th:href="@{/}">
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link me-2" th:href="@{../pages/profile.html}">
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link me-2" th:href="@{../authentication/signup.html}">
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link me-2" th:href="@{../pages/sign-in.html}">
+                </a>
+              </li>
+            </ul>
+            <li class="nav-item d-flex align-items-center">
+              <a class="nav-link me-2" th:href="@{/cart}">
+                <i class="fas fa-cart-plus"></i>
+                <span>Cart</span></a>
+            </li>
+            <ul class="navbar-nav d-lg-block d-none">
+              <li class="nav-item">
+                <a th:href="@{/login}" class="btn btn-sm btn-round mb-0 me-1 bg-gradient-dark">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+    </div>
+  </div>
+</div>
+<div class="container my-5 mt-8 d-block shadow-xl border-radius-xl py-5 px-5">
+  <div class="card-header pb-0 p-3">
+    <h1 ><a class="btn btn-outline-primary btn-sm mb-0 me-3" th:href="@{/catalog}">Back to Catalog</a></h1>
+  </div>
+  <div class="row">
+    <div class="col-md-5">
+      <div class="main-img">
+        <img class="img-fluid" th:src="@{../resources/catalog.jpg}" alt="ProductS">
+      </div>
+    </div>
+    <div th:object="${products}" class="col-md-5">
+    <form th:object="${cart}" th:action="@{/addToCart}" method="post">
+      <div class="main-description px-5">
+        <div class="category text-bold" >
+          Category: <span th:text="${products.categoryName}"></span>
+        </div>
+        <div class="product-title text-bold my-3" th:text="${products.name}">
+          <input name="cartId" hidden>
+        </div>
+        <input th:value="${products.id}"  name="productId" hidden>
+        <input th:value="${products.listPrice}"  name="unitPrice" hidden>
+        <div class="price-area my-4">
+          <h5 class="new-price text-bold mb-1" >$<span th:text="${products.listPrice}"></span></h5>
+          <p class="text-secondary mb-1">(Additional tax may apply on checkout)</p>
+        </div>
+        <div>
+          <select name="storeId" class="form-control" required>
+            <option value="">pilih store..</option>
+            <option th:each="dropdown : ${storeDropdown}"
+                    th:value="${dropdown.value}"
+                    th:text="${dropdown.text}"></option>
+          </select>
+        </div>
+
+        <div class="buttons d-flex my-5">
+          <div class="block mx-2">
+            <a href="#" class="shadow btn custom-btn ">Wishlist</a>
+          </div>
+          <div class="block mx-2">
+            <button type="submit" class="shadow btn custom-btn">Add to cart</button>
+          </div>
+
+          <div class="block quantity">
+            <input type="number" class="shadow form-control" id="cart_quantity" name="quantity" value="1" min="0" max="5">
+          </div>
+
+        </div>
+
+      </div>
+
+
+<!--      <div class="delivery my-4">-->
+<!--        <p class="font-weight-bold mb-0"><span><i class="fa-solid fa-truck"></i></span> <b>Delivery done in 3 days from date of purchase</b> </p>-->
+<!--        <p class="text-secondary">Order now to get this product delivery</p>-->
+<!--      </div>-->
+<!--      <div class="delivery-options my-4">-->
+<!--        <p class="font-weight-bold mb-0"><span><i class="fa-solid fa-filter"></i></span> <b>Delivery options</b> </p>-->
+<!--        <p class="text-secondary">View delivery options here</p>-->
+<!--      </div>-->
+
+
+    </form>
+    </div>
+  </div>
+</div>
+
+
+</div>
+</body>
+</html>

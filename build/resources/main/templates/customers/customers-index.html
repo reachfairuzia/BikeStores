@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout(~{::body},signedIn, 'Customers', 'Customers Table')}">
+<body>
+<div class="container">
+    <div class="d-flex flex-row-reverse">
+        <a th:href="@{/customers/new}" class="btn btn-success">
+            <i class="fas fa-plus-circle"></i> Register
+        </a>
+    </div>
+    <div class="d-flex flex-row-reverse">
+        <form th:action="@{/customers}" method="get">
+            <div class="input-group">
+                <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                <input type="text" class="form-control" name="name" th:value="${name}" placeholder="Type customers here...">
+            </div>
+        </form>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="customer : ${customers}">
+            <td th:text="${customer.id}"></td>
+            <td th:text="${customer.fullName}"></td>
+            <td th:text="${customer.phone}"></td>
+            <td th:text="${customer.email}"></td>
+            <td th:text="${customer.address}"></td>
+            <td>
+                <a th:href="@{/customers/{id} (id=${customer.id})}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                <a th:href="@{/customers/{id}/edit (id=${customer.id})}" class="btn btn-warning"><i
+                        class="fas fa-edit"></i></a>
+                <a th:href="@{/customers/{id}/remove (id=${customer.id})}" class="btn btn-danger"><i
+                        class="fas fa-trash"></i></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <tfoot>
+    <tr>
+        <td>
+            Total Data : <span th:text="${customers.totalElements}"></span>
+        </td>
+        <td colspan="4">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="javascript:;" tabindex="-1">
+                            <i class="fa fa-angle-left"></i>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:each="loop:${#numbers.sequence(1, customers.totalPages)}">
+                        <a class="page-link" th:href="@{/customers(pageNumber=${loop}, name=${name})}"
+                           th:text="${loop}"></a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:;">
+                            <i class="fa fa-angle-right"></i>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </td>
+    </tr>
+    </tfoot>
+</div>
+</body>
+</html>

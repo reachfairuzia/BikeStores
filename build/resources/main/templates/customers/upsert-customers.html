@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::body},signedIn, 'Customer',
+      ${customers.id} == null ? 'Customer / New' : 'Customer / Edit / ' + ${customers.id})}">
+<body>
+<div class="container">
+    <form method="post" th:object="${customers}">
+        <div class="form-group">
+            <div>
+                <input th:field="*{id}" type="text" class="form-control" hidden>
+                <div th:errors="*{firstName}" class="text-danger"></div>
+                <label for="firstName">First Name:</label>
+                <input th:field="*{firstName}" id="firstName" type="text" class="form-control" required>
+            </div>
+            <div>
+                <div th:errors="*{lastName}" class="text-danger"></div>
+                <label for="lastName">Last Name:</label>
+                <input th:field="*{lastName}" id="lastName" type="text" class="form-control" required>
+            </div>
+            <div>
+                <div th:errors="*{phone}" class="text-danger"></div>
+                <label for="phone">Phone:</label>
+                <input th:field="*{phone}" id="modelYear" type="text" class="form-control" required>
+            </div>
+            <div>
+                <div th:errors="*{email}" class="text-danger"></div>
+                <label for="email">Email:</label>
+                <input th:field="*{email}" id="email" type="text" class="form-control" required>
+            </div>
+            <div>
+                <label>Address:</label>
+                <input th:field="*{street}" placeholder="street"  type="text" class="form-control" required>
+                <input th:field="*{city}" placeholder="city" type="text" class="form-control" required>
+                <input th:field="*{state}" placeholder="state" type="text" class="form-control" required>
+                <input th:field="*{zipCode}" placeholder="zip code" type="text" class="form-control" required>
+            </div>
+        </div>
+        <button class="btn btn-primary" th:text="${customers.id} == null ? 'Add' : 'Edit'">Customers!</button>
+    </form>
+</div>
+</body>
+</html>

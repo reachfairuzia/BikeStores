@@ -1,0 +1,160 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" th:href="@{../resources/assets/img/apple-icon.png}">
+    <link rel="icon" type="image/png" th:href="@{/resources/favicon.png}">
+<!--    <title>-->
+<!--        Cart-->
+<!--    </title>-->
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
+    <!-- Nucleo Icons -->
+    <link th:href="@{../resources/assets/css/nucleo-icons.css}" rel="stylesheet"/>
+    <link th:href="@{../resources/assets/css/nucleo-svg.css}" rel="stylesheet"/>
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link th:href="@{../resources/assets/css/nucleo-svg.css}" rel="stylesheet"/>
+    <!-- CSS Files -->
+    <link id="pagestyle" th:href="@{../resources/assets/css/soft-ui-dashboard.css?v=1.0.7}" rel="stylesheet"/>
+    <!-- Nepcha Analytics (nepcha.com) -->
+    <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
+    <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+</head>
+<body>
+<div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+        <div class="col-12">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg blur blur-rounded top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
+                <div class="container-fluid pe-0">
+                    <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " th:href="@{/}">
+                        Bike Stores Dashboard
+                    </a>
+                    <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false"
+                            aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon mt-2">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navigation">
+                        <ul class="navbar-nav mx-auto ms-xl-auto me-xl-7">
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center me-2 active" aria-current="page"
+                                   th:href="@{/}">
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link me-2" th:href="@{../pages/profile.html}">
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link me-2" th:href="@{../authentication/signup.html}">
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link me-2" th:href="@{../pages/sign-in.html}">
+                                </a>
+                            </li>
+                        </ul>
+                        <li class="nav-item d-flex align-items-center">
+                            <a class="nav-link me-2" th:href="@{/cart}">Cart</a>
+                        </li>
+                        <ul class="navbar-nav d-lg-block d-none">
+                            <li class="nav-item">
+                                <a th:href="@{/login}"
+                                   class="btn btn-sm btn-round mb-0 me-1 bg-gradient-dark">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+        </div>
+    </div>
+</div>
+<main class="main-content  mt-0">
+    <section class="mt-6">
+        <div class="container py-5 h-100 ">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <h5 class="mb-3"><a th:href="@{/catalog}" class="text-body"><i
+                                            class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a></h5>
+                                    <hr>
+
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <div>
+                                            <p class="mb-1">Shopping cart</p>
+                                        </div>
+                                    </div>
+                                    <div class="card mb-3" th:each="cart : ${carts}">
+                                        <h5 class="mb-0 p-4" th:text="${cart.storeName}"></h5>
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="d-flex flex-row align-items-center">
+                                                        <div>
+                                                            <img th:src="@{/resources/bicycle.jpg}"
+                                                                 class="img-fluid rounded-3" alt="Shopping item"
+                                                                 style="width: 85px;">
+                                                        </div>
+                                                        <div class="ms-3">
+                                                            <h5 th:text="${cart.productName}"></h5>
+                                                            <p class="small mb-0 text-success" th:text="'$' + ${cart.unitPrice}"></p>
+                                                            <p class="small mb-0"
+                                                               th:text="'Quantity : ' + ${cart.quantity}"></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex flex-row align-items-center">
+                                                        <a th:href="@{/delete/{cartId} (cartId=${cart.cartId})} "><i class="fas fa-trash-alt"></i></a>
+                                                    </div>
+
+                                                </div>
+                                                <div class="d-flex justify-content-end">
+                                                    <div class="align-items-center my-2">
+                                                        <button class="btn btn-primary btn-sm"> Pesan</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script th:src="@{../resources/assets/js/core/popper.min.js}"></script>
+<script th:src="@{../resources/assets/js/core/bootstrap.min.js}"></script>
+<script th:src="@{../resources/assets/js/plugins/perfect-scrollbar.min.js}"></script>
+<script th:src="@{../resources/assets/js/plugins/smooth-scrollbar.min.js}"></script>
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+<script th:src="@{../resources/assets/js/soft-ui-dashboard.min.js?v=1.0.7}"></script>
+</body>
+</html>
